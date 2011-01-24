@@ -1,3 +1,7 @@
+%if 0%{?rhel} == 5
+%global _fmoddir %{_libdir}/gfortran/modules
+%endif
+
 Name:		libxc
 Summary:	Library of exchange and correlation functionals to be used in DFT codes
 Version:	1.0
