@@ -4,7 +4,7 @@
 
 Name:		libxc
 Summary:	Library of exchange and correlation functionals to be used in DFT codes
-Version:	2.0.1
+Version:	2.0.2
 Release:	1%{?dist}
 License:	LGPLv3+
 Group:		Applications/Engineering
@@ -30,7 +30,7 @@ Requires:	pkgconfig
 # Old versions don't have the 32-bit gfortran compiler, and the Fortran part 
 # of the multilib'd devel package won't work in any case since Fortran modules
 # are architecture and compiler version dependent.
-Requires:	gcc-gfortran%{_isa}
+Requires:	gcc-gfortran%{?_isa}
 %endif
 
 %description devel
@@ -47,6 +47,8 @@ in order to compile programs against libxc.
 %setup -q
 
 %build
+# Don't insert C code during preprocessing
+export FCCPP="cpp -ffreestanding"
 %configure --enable-shared --disable-static
 # SMP make is not working.
 #make %{?_smp_mflags}
@@ -81,6 +83,15 @@ rm -rf %{buildroot}
 %{_libdir}/pkgconfig/libxc.pc
 
 %changelog
+* Wed Jul 10 2013 Susi Lehtola <jussilehtola@fedoraproject.org> - 2.0.2-1
+- Update to 2.0.2.
+
+* Wed Mar 06 2013 Susi Lehtola <jussilehtola@fedoraproject.org> - 2.0.1-3
+- Fix FTBFS in rawhide.
+
+* Thu Feb 14 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2.0.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_19_Mass_Rebuild
+
 * Mon Jan 21 2013 Susi Lehtola <jussilehtola@fedoraproject.org> - 2.0.1-1
 - Update to 2.0.1.
 
