@@ -5,11 +5,13 @@
 Name:		libxc
 Summary:	Library of exchange and correlation functionals to be used in DFT codes
 Version:	2.0.2
-Release:	2%{?dist}
+Release:	3%{?dist}
 License:	LGPLv3+
 Group:		Applications/Engineering
 BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
-Source:		http://www.tddft.org/programs/octopus/down.php?file=libxc/libxc-%{version}.tar.gz
+Source0:	http://www.tddft.org/programs/octopus/down.php?file=libxc/libxc-%{version}.tar.gz
+# Fix bugs with e.g. TPSS correlation (from upstream)
+Patch0:		libxc-2.0.2-mgga_c.patch
 URL:		http://www.tddft.org/programs/octopus/wiki/index.php/Libxc
 
 BuildRequires:	gcc-gfortran
@@ -45,6 +47,7 @@ in order to compile programs against libxc.
 
 %prep
 %setup -q
+%patch0 -p1 -b .mggac
 
 %build
 # Don't insert C code during preprocessing
@@ -83,6 +86,9 @@ rm -rf %{buildroot}
 %{_libdir}/pkgconfig/libxc.pc
 
 %changelog
+* Mon Feb 17 2014 Susi Lehtola <jussilehtola@fedoraproject.org> - 2.0.2-3
+- Fix bug with some mgga correlation functionals.
+
 * Sat Aug 03 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2.0.2-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_20_Mass_Rebuild
 
