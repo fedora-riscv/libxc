@@ -4,14 +4,12 @@
 
 Name:		libxc
 Summary:	Library of exchange and correlation functionals to be used in DFT codes
-Version:	2.0.2
-Release:	3%{?dist}
+Version:	2.0.3
+Release:	1%{?dist}
 License:	LGPLv3+
 Group:		Applications/Engineering
 BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
 Source0:	http://www.tddft.org/programs/octopus/down.php?file=libxc/libxc-%{version}.tar.gz
-# Fix bugs with e.g. TPSS correlation (from upstream)
-Patch0:		libxc-2.0.2-mgga_c.patch
 URL:		http://www.tddft.org/programs/octopus/wiki/index.php/Libxc
 
 BuildRequires:	gcc-gfortran
@@ -26,7 +24,7 @@ the energy density and its 1st, 2nd, and (for the LDAs) 3rd derivatives.
 %package devel
 Summary:	Development library and headers for libxc
 Group:		Development/Libraries
-Requires:	%{name} = %{version}-%{release}
+Requires:	%{name}%{?_isa} = %{version}-%{release}
 Requires:	pkgconfig
 %if 0%{?fedora} >11 || 0%{?rhel} > 5
 # Old versions don't have the 32-bit gfortran compiler, and the Fortran part 
@@ -47,15 +45,12 @@ in order to compile programs against libxc.
 
 %prep
 %setup -q
-%patch0 -p1 -b .mggac
 
 %build
 # Don't insert C code during preprocessing
 export FCCPP="cpp -ffreestanding"
 %configure --enable-shared --disable-static
-# SMP make is not working.
-#make %{?_smp_mflags}
-make
+make %{?_smp_mflags}
 
 %install
 rm -rf %{buildroot}
@@ -86,6 +81,9 @@ rm -rf %{buildroot}
 %{_libdir}/pkgconfig/libxc.pc
 
 %changelog
+* Tue Feb 18 2014 Susi Lehtola <jussilehtola@fedoraproject.org> - 2.0.3-1
+- Update to 2.0.3.
+
 * Mon Feb 17 2014 Susi Lehtola <jussilehtola@fedoraproject.org> - 2.0.2-3
 - Fix bug with some mgga correlation functionals.
 
