@@ -57,7 +57,9 @@ export FCCPP="cpp -ffreestanding"
 %else
 %configure --enable-shared --disable-static
 %endif
-make %{?_smp_mflags}
+# SMP make doesn't work
+#make %{?_smp_mflags}
+make
 
 %install
 rm -rf %{buildroot}
