@@ -17,6 +17,11 @@ URL:		http://www.tddft.org/programs/octopus/wiki/index.php/Libxc
 
 BuildRequires:	gcc-gfortran
 
+%if 0%{?rhel} == 5 || 0%{?rhel} == 6
+# BZ #1079415
+ExcludeArch:    ppc ppc64
+%endif
+
 %description 
 libxc is a library of exchange and correlation functionals. Its purpose is to
 be used in codes that implement density-functional theory. For the moment, the
