@@ -1,10 +1,13 @@
+# Possibility to build without single precision enabled
+%bcond_without single
+
 %if 0%{?rhel} == 5
 %global _fmoddir %{_libdir}/gfortran/modules
 %endif
 
 Name:		libxc
 Summary:	Library of exchange and correlation functionals to be used in DFT codes
-Version:	2.0.3
+Version:	2.1.0
 Release:	1%{?dist}
 License:	LGPLv3+
 Group:		Applications/Engineering
@@ -49,7 +52,11 @@ in order to compile programs against libxc.
 %build
 # Don't insert C code during preprocessing
 export FCCPP="cpp -ffreestanding"
+%if %{with single}
+%configure --enable-shared --disable-static --enable-single
+%else
 %configure --enable-shared --disable-static
+%endif
 make %{?_smp_mflags}
 
 %install
@@ -70,6 +77,7 @@ rm -rf %{buildroot}
 %files
 %defattr(-,root,root,-)
 %doc README NEWS COPYING AUTHORS ChangeLog TODO
+%{_bindir}/xc-info
 %{_libdir}/libxc.so.*
 
 %files devel
@@ -78,9 +86,16 @@ rm -rf %{buildroot}
 %{_includedir}/xc*.h
 %{_fmoddir}/libxc_funcs_m.mod
 %{_fmoddir}/xc_f90_*.mod
+%if %{with single}
+%{_fmoddir}/xc_s_f90_*.mod
+%endif
 %{_libdir}/pkgconfig/libxc.pc
 
 %changelog
+* Fri Mar 21 2014 Susi Lehtola <jussilehtola@fedoraproject.org> - 2.1.0-1
+- Enable single precision routines as well.
+- Update to 2.1.0.
+
 * Tue Feb 18 2014 Susi Lehtola <jussilehtola@fedoraproject.org> - 2.0.3-1
 - Update to 2.0.3.
 
