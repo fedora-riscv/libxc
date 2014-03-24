@@ -51,10 +51,11 @@ in order to compile programs against libxc.
 %prep
 %setup -q
 
+%if 0%{?rhel} == 5 || 0%{?rhel} == 6
 %ifarch ppc ppc64
 %patch0 -p1 -b .ppc
 %endif
-
+%endif
 
 %build
 # Don't insert C code during preprocessing
