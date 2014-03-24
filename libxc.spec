@@ -51,7 +51,7 @@ in order to compile programs against libxc.
 %prep
 %setup -q
 
-%ifarch ppc pcc64
+%ifarch ppc ppc64
 %patch0 -p1 -b .ppc
 %endif
 
