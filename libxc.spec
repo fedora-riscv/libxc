@@ -8,19 +8,16 @@
 Name:		libxc
 Summary:	Library of exchange and correlation functionals to be used in DFT codes
 Version:	2.1.0
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	LGPLv3+
 Group:		Applications/Engineering
 BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
 Source0:	http://www.tddft.org/programs/octopus/down.php?file=libxc/libxc-%{version}.tar.gz
+# Workaround for BZ #1079415 causing builds to fail on ppc archs in EPEL
+Patch0:         libxc-2.1.0-ppc.patch
 URL:		http://www.tddft.org/programs/octopus/wiki/index.php/Libxc
 
 BuildRequires:	gcc-gfortran
-
-%if 0%{?rhel} == 5 || 0%{?rhel} == 6
-# BZ #1079415
-ExcludeArch:    ppc ppc64
-%endif
 
 %description 
 libxc is a library of exchange and correlation functionals. Its purpose is to
@@ -53,6 +50,13 @@ in order to compile programs against libxc.
 
 %prep
 %setup -q
+
+%if 0%{?rhel} == 5 || 0%{?rhel} == 6
+%ifarch ppc pcc64
+%patch0 -p1 -b .ppc
+%endif
+%endif
+
 
 %build
 # Don't insert C code during preprocessing
@@ -99,6 +103,9 @@ rm -rf %{buildroot}
 %{_libdir}/pkgconfig/libxc.pc
 
 %changelog
+* Mon Mar 24 2014 Susi Lehtola <jussilehtola@fedoraproject.org> - 2.1.0-2
+- Re-enable builds on ppc and ppc64 on EPEL.
+
 * Fri Mar 21 2014 Susi Lehtola <jussilehtola@fedoraproject.org> - 2.1.0-1
 - Enable single precision routines as well.
 - Update to 2.1.0.
