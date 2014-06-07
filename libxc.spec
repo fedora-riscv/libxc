@@ -8,7 +8,7 @@
 Name:		libxc
 Summary:	Library of exchange and correlation functionals to be used in DFT codes
 Version:	2.1.0
-Release:	2%{?dist}
+Release:	3%{?dist}
 License:	LGPLv3+
 Group:		Applications/Engineering
 BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
@@ -102,6 +102,9 @@ rm -rf %{buildroot}
 %{_libdir}/pkgconfig/libxc.pc
 
 %changelog
+* Sat Jun 07 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2.1.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
+
 * Mon Mar 24 2014 Susi Lehtola <jussilehtola@fedoraproject.org> - 2.1.0-2
 - Re-enable builds on ppc and ppc64 on EPEL.
 
