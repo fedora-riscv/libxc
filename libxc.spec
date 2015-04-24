@@ -8,16 +8,21 @@
 Name:		libxc
 Summary:	Library of exchange and correlation functionals to be used in DFT codes
 Version:	2.1.2
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	LGPLv3+
 Group:		Applications/Engineering
 BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
 Source0:	http://www.tddft.org/programs/octopus/down.php?file=libxc/libxc-%{version}.tar.gz
 # Workaround for BZ #1079415 causing builds to fail on ppc archs in EPEL
 Patch0:         libxc-2.1.0-ppc.patch
+# Fix broken makefile
+Patch1:         libxc-2.1.2-build.patch
 URL:		http://www.tddft.org/programs/octopus/wiki/index.php/Libxc
 
 BuildRequires:	gcc-gfortran
+BuildRequires:	autoconf
+BuildRequires:	automake
+BuildRequires:	libtool
 
 %description 
 libxc is a library of exchange and correlation functionals. Its purpose is to
@@ -56,6 +61,9 @@ in order to compile programs against libxc.
 %patch0 -p1 -b .ppc
 %endif
 %endif
+
+%patch1 -p1 -b .build
+autoreconf -i
 
 %build
 # Don't insert C code during preprocessing
@@ -102,6 +110,9 @@ rm -rf %{buildroot}
 %{_libdir}/pkgconfig/libxc.pc
 
 %changelog
+* Fri Apr 24 2015 Susi Lehtola <jussilehtola@fedoraproject.org> - 2.1.2-2
+- Patch broken makefiles.
+
 * Thu Feb 19 2015 Susi Lehtola <jussilehtola@fedoraproject.org> - 2.1.2-1
 - Update to 2.1.2.
 
