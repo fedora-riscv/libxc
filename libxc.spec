@@ -8,7 +8,7 @@
 Name:		libxc
 Summary:	Library of exchange and correlation functionals to be used in DFT codes
 Version:	2.1.2
-Release:	3%{?dist}
+Release:	4%{?dist}
 License:	LGPLv3+
 Group:		Applications/Engineering
 BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
@@ -38,12 +38,6 @@ Summary:	Development library and headers for libxc
 Group:		Development/Libraries
 Requires:	%{name}%{?_isa} = %{version}-%{release}
 Requires:	pkgconfig
-%if 0%{?fedora} >11 || 0%{?rhel} > 5
-# Old versions don't have the 32-bit gfortran compiler, and the Fortran part 
-# of the multilib'd devel package won't work in any case since Fortran modules
-# are architecture and compiler version dependent.
-Requires:	gcc-gfortran%{?_isa}
-%endif
 
 %description devel
 libxc is a library of exchange and correlation functionals. Its purpose is to
@@ -113,6 +107,9 @@ rm -rf %{buildroot}
 %{_libdir}/pkgconfig/libxc.pc
 
 %changelog
+* Sat May 02 2015 Susi Lehtola <jussilehtola@fedoraproject.org> - 2.1.2-4
+- Drop gfortran requires on -devel.
+
 * Fri Apr 24 2015 Susi Lehtola <jussilehtola@fedoraproject.org> - 2.1.2-3
 - Patch some hybrids.
 
