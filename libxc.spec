@@ -107,7 +107,7 @@ rm -rf %{buildroot}
 %{_libdir}/pkgconfig/libxc.pc
 
 %changelog
-* Sat Man 02 2015 Susi Lehtola <jussilehtola@fedoraproject.org> - 2.1.2-4
+* Sat May 02 2015 Susi Lehtola <jussilehtola@fedoraproject.org> - 2.1.2-4
 - Drop gfortran requires on -devel.
 
 * Fri Apr 24 2015 Susi Lehtola <jussilehtola@fedoraproject.org> - 2.1.2-3
