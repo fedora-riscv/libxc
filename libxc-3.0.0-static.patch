@@ -1,0 +1,64 @@
+diff -up libxc-3.0.0/src/lda_xc_ksdt.c.static libxc-3.0.0/src/lda_xc_ksdt.c
+--- libxc-3.0.0/src/lda_xc_ksdt.c.static	2016-04-21 11:03:11.000000000 +0200
++++ libxc-3.0.0/src/lda_xc_ksdt.c	2016-04-21 23:21:52.065929425 +0200
+@@ -74,7 +74,7 @@ XC(lda_xc_ksdt_set_params)(XC(func_type)
+   params->T  = T;
+ }
+ 
+-void
++static void
+ ksdt_fxc(int ispin, int order, FLOAT t, FLOAT *rs, FLOAT *fxc, FLOAT *dfxcdt, 
+ 	 FLOAT *dfxcdrs, FLOAT *d2fxdt2, FLOAT *d2fxcrsdt, FLOAT *d2fxcdrs2)
+ {
+@@ -162,7 +162,7 @@ ksdt_fxc(int ispin, int order, FLOAT t, 
+ 
+ }
+ 
+-void
++static void
+ ksdt_alpha(int order, FLOAT t, FLOAT *rs, FLOAT *alpha, FLOAT *dalphadt, FLOAT *dalphadrs)
+ {
+   const FLOAT ksdt_g[] = {2.0/3.0, -0.0139261, 0.183208};
+@@ -196,7 +196,7 @@ ksdt_alpha(int order, FLOAT t, FLOAT *rs
+ }
+ 
+ 
+-void
++static void
+ ksdt_phi(int order, FLOAT zeta, FLOAT alpha, 
+ 	 FLOAT *phi, FLOAT *dphidz, FLOAT *dphidalpha)
+ {
+diff -up libxc-3.0.0/src/mgga_c_scan.c.static libxc-3.0.0/src/mgga_c_scan.c
+--- libxc-3.0.0/src/mgga_c_scan.c.static	2016-04-21 11:03:11.000000000 +0200
++++ libxc-3.0.0/src/mgga_c_scan.c	2016-04-21 23:21:52.067929425 +0200
+@@ -25,12 +25,12 @@
+ #define XC_MGGA_C_SCAN          267 /* SCAN correlation */
+ 
+ /* Constants */
+-const FLOAT b1c=0.02858, b2c=0.0889, b3c=0.1255;
+-const FLOAT c1c=0.64, c2c=1.5, dc=0.7;
+-const FLOAT c_gamma=0.03109069086965490; /* (1-log(2))/Pi^2 */
+-const FLOAT beta_a=0.066725, beta_b=0.1, beta_c=0.1778;
+-const FLOAT G_c=2.3621;
+-const FLOAT chi=0.128026;
++static const FLOAT b1c=0.02858, b2c=0.0889, b3c=0.1255;
++static const FLOAT c1c=0.64, c2c=1.5, dc=0.7;
++static const FLOAT c_gamma=0.03109069086965490; /* (1-log(2))/Pi^2 */
++static const FLOAT beta_a=0.066725, beta_b=0.1, beta_c=0.1778;
++static const FLOAT G_c=2.3621;
++static const FLOAT chi=0.128026;
+ 
+ /* Calculates E_c^{LDA0} = -b1c / ( 1 + b2c*r^{1/2} + b3c*r ) */
+ static void
+diff -up libxc-3.0.0/src/version.c.static libxc-3.0.0/src/version.c
+--- libxc-3.0.0/src/version.c.static	2016-04-21 11:03:11.000000000 +0200
++++ libxc-3.0.0/src/version.c	2016-04-21 23:22:15.263929263 +0200
+@@ -22,7 +22,7 @@
+ #include "xc.h"
+ #include "config.h"
+ 
+-const char * libxc_version = PACKAGE_VERSION;
++static const char * libxc_version = PACKAGE_VERSION;
+ 
+ void XC(version)(int *major, int *minor, int *micro) {
+ 

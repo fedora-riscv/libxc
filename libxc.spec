@@ -7,18 +7,18 @@
 
 Name:		libxc
 Summary:	Library of exchange and correlation functionals to be used in DFT codes
-Version:	2.1.2
-Release:	5%{?dist}
+Version:	3.0.0
+Release:	1%{?dist}
 License:	LGPLv3+
 Group:		Applications/Engineering
 BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
 Source0:	http://www.tddft.org/programs/octopus/down.php?file=libxc/libxc-%{version}.tar.gz
 # Workaround for BZ #1079415 causing builds to fail on ppc archs in EPEL
 Patch0:         libxc-2.1.0-ppc.patch
-# Fix broken makefile (from upstream)
-Patch1:         libxc-2.1.2-build.patch
-# Fix hybrids (from upstream)
-Patch2:         libxc-2.1.2-hybrids.patch
+# Add in some missing static declarations (from upstream)
+Patch1:         libxc-3.0.0-static.patch
+# Fix single precision install (from upstream)
+Patch2:         libxc-3.0.0-single.patch
 URL:		http://www.tddft.org/programs/octopus/wiki/index.php/Libxc
 
 BuildRequires:	gcc-gfortran
@@ -57,9 +57,8 @@ in order to compile programs against libxc.
 %patch0 -p1 -b .ppc
 %endif
 %endif
-
-%patch1 -p1 -b .build
-%patch2 -p1 -b .hybrids
+%patch1 -p1 -b .static
+%patch2 -p1 -b .single
 autoreconf -i
 
 %build
@@ -94,19 +93,28 @@ rm -rf %{buildroot}
 %doc README NEWS COPYING AUTHORS ChangeLog TODO
 %{_bindir}/xc-info
 %{_libdir}/libxc.so.*
+%{_libdir}/libxcf03.so.*
+%{_libdir}/libxcf90.so.*
 
 %files devel
 %defattr(-,root,root,-)
 %{_libdir}/libxc.so
+%{_libdir}/libxcf03.so
+%{_libdir}/libxcf90.so
 %{_includedir}/xc*.h
 %{_fmoddir}/libxc_funcs_m.mod
+%{_fmoddir}/xc_f03_*.mod
 %{_fmoddir}/xc_f90_*.mod
 %if %{with single}
+%{_fmoddir}/xc_s_f03_*.mod
 %{_fmoddir}/xc_s_f90_*.mod
 %endif
 %{_libdir}/pkgconfig/libxc.pc
 
 %changelog
+* Thu Apr 21 2016 Susi Lehtola <jussilehtola@fedoraproject.org> - 3.0.0-1
+- Update to 3.0.0.
+
 * Wed Jun 17 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2.1.2-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_23_Mass_Rebuild
 
