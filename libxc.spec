@@ -26,7 +26,7 @@ BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	libtool
 
-%description 
+%description
 libxc is a library of exchange and correlation functionals. Its purpose is to
 be used in codes that implement density-functional theory. For the moment, the
 library includes most of the local density approximations (LDAs), generalized
@@ -114,6 +114,9 @@ rm -rf %{buildroot}
 %changelog
 * Thu Apr 21 2016 Susi Lehtola <jussilehtola@fedoraproject.org> - 3.0.0-1
 - Update to 3.0.0.
+
+* Thu Feb 04 2016 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.2-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_24_Mass_Rebuild
 
 * Wed Jun 17 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2.1.2-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_23_Mass_Rebuild
