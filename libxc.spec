@@ -8,7 +8,7 @@
 Name:		libxc
 Summary:	Library of exchange and correlation functionals to be used in DFT codes
 Version:	3.0.0
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	LGPLv3+
 Group:		Applications/Engineering
 BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
@@ -52,10 +52,8 @@ in order to compile programs against libxc.
 %prep
 %setup -q
 
-%if 0%{?rhel} == 5 || 0%{?rhel} == 6 || 0%{?rhel} == 7
-%ifarch ppc ppc64
+%ifarch ppc %{power64}
 %patch0 -p1 -b .ppc
-%endif
 %endif
 %patch1 -p1 -b .static
 %patch2 -p1 -b .single
@@ -112,6 +110,9 @@ rm -rf %{buildroot}
 %{_libdir}/pkgconfig/libxc.pc
 
 %changelog
+* Thu Jun 30 2016 Rafael Fonseca <rdossant@redhat.com> - 3.0.0-2
+- Fix compilation on ppc64.
+
 * Thu Apr 21 2016 Susi Lehtola <jussilehtola@fedoraproject.org> - 3.0.0-1
 - Update to 3.0.0.
 
