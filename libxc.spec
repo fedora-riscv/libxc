@@ -8,7 +8,7 @@
 Name:		libxc
 Summary:	Library of exchange and correlation functionals to be used in DFT codes
 Version:	3.0.0
-Release:	2%{?dist}
+Release:	3%{?dist}
 License:	LGPLv3+
 Group:		Applications/Engineering
 BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
@@ -110,6 +110,9 @@ rm -rf %{buildroot}
 %{_libdir}/pkgconfig/libxc.pc
 
 %changelog
+* Sun Feb 05 2017 Kalev Lember <klember@redhat.com> - 3.0.0-3
+- Rebuilt for libgfortran soname bump
+
 * Thu Jun 30 2016 Rafael Fonseca <rdossant@redhat.com> - 3.0.0-2
 - Fix compilation on ppc64.
 
