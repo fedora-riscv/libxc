@@ -1,9 +1,9 @@
-diff -up libxc-2.1.0/src/util.h.ppc libxc-2.1.0/src/util.h
---- libxc-2.1.0/src/util.h.ppc	2014-03-21 12:37:21.000000000 +0200
-+++ libxc-2.1.0/src/util.h	2014-03-24 17:54:11.784238133 +0200
-@@ -36,15 +36,15 @@ double asinh (double x);
- float  asinhf(float  x);
+diff -up libxc-4.0.1/src/util.h.ppc libxc-4.0.1/src/util.h
+--- libxc-4.0.1/src/util.h.ppc	2017-10-09 21:54:53.480700790 +0200
++++ libxc-4.0.1/src/util.h	2017-10-09 21:55:31.490135022 +0200
+@@ -76,15 +76,15 @@ double erfc(double);
  #endif
+ 
  
 -#define M_SQRTPI        1.772453850905516027298167483341145182798L
 -#define M_SQRT3         1.732050807568877293527446341505872366943L
@@ -25,4 +25,4 @@ diff -up libxc-2.1.0/src/util.h.ppc libxc-2.1.0/src/util.h
 +#define M_CBRT9         2.080083823051904114530056824357885386338
  
  /* Very useful macros */
- #define min(x,y)  ((x<y) ? (x) : (y))
+ #ifndef min

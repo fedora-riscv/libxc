@@ -10,7 +10,7 @@ License:        LGPLv3+
 Group:          Applications/Engineering
 Source0:        http://www.tddft.org/programs/octopus/down.php?file=libxc/%{version}/libxc-%{version}.tar.gz
 # Workaround for BZ #1079415 causing builds to fail on ppc archs in EPEL
-Patch0:         libxc-2.1.0-ppc.patch
+Patch0:         libxc-4.0.1-ppc.patch
 URL:            http://www.tddft.org/programs/octopus/wiki/index.php/Libxc
 
 BuildRequires:  gcc-gfortran
@@ -42,9 +42,9 @@ in order to compile programs against libxc.
 %prep
 %setup -q
 
-%ifarch ppc %{power64}
+#ifarch ppc %{power64}
 %patch0 -p1 -b .ppc
-%endif
+#endif
 
 %build
 # Don't insert C code during preprocessing
