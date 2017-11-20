@@ -15,10 +15,6 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-buildroot
 Source0:        http://www.tddft.org/programs/octopus/down.php?file=libxc/%{version}/libxc-%{version}.tar.gz
 # Workaround for BZ #1079415 causing builds to fail on ppc archs in EPEL
 Patch0:         libxc-2.1.0-ppc.patch
-# Add in some missing static declarations (from upstream)
-Patch1:         libxc-3.0.0-static.patch
-# Fix single precision install (from upstream)
-Patch2:         libxc-3.0.0-single.patch
 URL:            http://www.tddft.org/programs/octopus/wiki/index.php/Libxc
 
 BuildRequires:  gcc-gfortran
@@ -55,8 +51,6 @@ in order to compile programs against libxc.
 %ifarch ppc %{power64}
 %patch0 -p1 -b .ppc
 %endif
-%patch1 -p1 -b .static
-%patch2 -p1 -b .single
 autoreconf -i
 
 %build
