@@ -4,7 +4,7 @@
 
 Name:           libxc
 Summary:        Library of exchange and correlation functionals for density-functional theory
-Version:        4.0.2
+Version:        4.0.4
 Release:        1%{?dist}
 License:        LGPLv3+
 Group:          Applications/Engineering
@@ -84,6 +84,9 @@ find %{buildroot}%{_libdir} -name *.la -exec rm -rf {} \;
 %{_libdir}/pkgconfig/libxc.pc
 
 %changelog
+* Wed Jan 07 2018 Susi Lehtola <jussilehtola@fedoraproject.org> - 4.0.4-1
+- Update to 4.0.4.
+
 * Mon Nov 20 2017 Susi Lehtola <jussilehtola@fedoraproject.org> - 4.0.2-1
 - Update to 4.0.2.
 
