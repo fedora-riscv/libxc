@@ -1,20 +1,24 @@
 %if 0%{?rhel} == 5
 %global _fmoddir %{_libdir}/gfortran/modules
 %endif
+%global soversion 5
 
 Name:           libxc
 Summary:        Library of exchange and correlation functionals for density-functional theory
-Version:        4.0.5
+Version:        4.1.1
 Release:        1%{?dist}
-License:        LGPLv3+
+License:        MPLv2.0
 Group:          Applications/Engineering
 Source0:        http://www.tddft.org/programs/octopus/down.php?file=libxc/%{version}/libxc-%{version}.tar.gz
-# Workaround for BZ #1079415 causing builds to fail on ppc archs in EPEL
-Patch0:         libxc-4.0.1-ppc.patch
+# Don't rebuild libxc for pylibxc
+Patch0:         libxc-4.1.1-pylibxc.patch
+
 URL:            http://www.tddft.org/programs/octopus/wiki/index.php/Libxc
 
 BuildRequires:  gcc-gfortran
 BuildRequires:  libtool
+BuildRequires:  python2-devel
+BuildRequires:  python3-devel
 
 %description
 libxc is a library of exchange and correlation functionals. Its purpose is to
@@ -39,20 +43,68 @@ the energy density and its 1st, 2nd, and (for the LDAs) 3rd derivatives.
 This package contains the development headers and library that are necessary
 in order to compile programs against libxc.
 
+%package -n python2-%{name}
+Summary:        Python2 interface to libxc
+BuildRequires:  python2-numpy
+Requires:       python2-numpy
+Requires:       %{name} = %{version}-%{release}
+BuildArch:      noarch
+%{?python_provide:%python_provide python2-%{name}}
+
+%description -n python2-%{name}
+libxc is a library of exchange and correlation functionals. Its purpose is to
+be used in codes that implement density-functional theory. For the moment, the
+library includes most of the local density approximations (LDAs), generalized
+density approximation (GGAs), and meta-GGAs. The library provides values for
+the energy density and its 1st, 2nd, and (for the LDAs) 3rd derivatives.
+
+This package contains the Python2 interface library to libxc.
+
+
+%package -n python3-%{name}
+Summary:        Python3 interface to libxc
+BuildRequires:  python3-numpy
+Requires:       python3-numpy
+Requires:       %{name} = %{version}-%{release}
+BuildArch:      noarch
+%{?python_provide:%python_provide python3-%{name}}
+
+%description -n python3-%{name}
+libxc is a library of exchange and correlation functionals. Its purpose is to
+be used in codes that implement density-functional theory. For the moment, the
+library includes most of the local density approximations (LDAs), generalized
+density approximation (GGAs), and meta-GGAs. The library provides values for
+the energy density and its 1st, 2nd, and (for the LDAs) 3rd derivatives.
+
+This package contains the Python3 interface library to libxc.
+
+
 %prep
 %setup -q
-
-#ifarch ppc %{power64}
-%patch0 -p1 -b .ppc
-#endif
+%patch0 -p1 -b .pylibxc
+# Plug in library soversion
+sed -i "s|@SOVERSION@|%{soversion}|g" pylibxc/core.py
 
 %build
 # Don't insert C code during preprocessing
 export FCCPP="cpp -ffreestanding"
 %configure --enable-shared --disable-static
+# Remove rpath
+sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
+sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
 # SMP make doesn't work
 #make %{?_smp_mflags}
 make
+
+# Check we have the right soversion
+if [[ ! -f src/.libs/libxc.so.%{soversion} ]]; then
+    echo "soversion has changed!"
+    exit
+fi
+
+# Build python interface
+%{py2_build}
+%{py3_build}
 
 %install
 make install DESTDIR=%{buildroot}
@@ -62,6 +114,10 @@ mv %{buildroot}%{_includedir}/*.mod %{buildroot}%{_fmoddir}
 # Get rid of .la files
 find %{buildroot}%{_libdir} -name *.la -exec rm -rf {} \;
 
+# Install python interface
+%{py2_install}
+%{py3_install}
+
 %post -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
 
@@ -69,9 +125,9 @@ find %{buildroot}%{_libdir} -name *.la -exec rm -rf {} \;
 %doc README NEWS COPYING AUTHORS ChangeLog TODO
 %{_bindir}/xc-info
 %{_bindir}/xc-threshold
-%{_libdir}/libxc.so.*
-%{_libdir}/libxcf03.so.*
-%{_libdir}/libxcf90.so.*
+%{_libdir}/libxc.so.%{soversion}*
+%{_libdir}/libxcf03.so.%{soversion}*
+%{_libdir}/libxcf90.so.%{soversion}*
 
 %files devel
 %{_libdir}/libxc.so
@@ -83,11 +139,23 @@ find %{buildroot}%{_libdir} -name *.la -exec rm -rf {} \;
 %{_fmoddir}/xc_f90_*.mod
 %{_libdir}/pkgconfig/libxc.pc
 
+%files -n python2-%{name}
+%{python2_sitelib}/pylibxc/
+%{python2_sitelib}/pylibxc-%{version}-py*.egg-info
+
+%files -n python3-%{name}
+%{python3_sitelib}/pylibxc/
+%{python3_sitelib}/pylibxc-%{version}-py*.egg-info
+
+
 %changelog
+* Wed May 09 2018 Susi Lehtola <jussilehtola@fedoraproject.org> - 4.1.1-1
+- Update to 4.1.1, changing license to MPLv2 and adding Python interface.
+
 * Fri May 04 2018 Susi Lehtola <jussilehtola@fedoraproject.org> - 4.0.5-1
 - Update to 4.0.5.
 
-* Wed Jan 07 2018 Susi Lehtola <jussilehtola@fedoraproject.org> - 4.0.4-1
+* Wed Feb 07 2018 Susi Lehtola <jussilehtola@fedoraproject.org> - 4.0.4-1
 - Update to 4.0.4.
 
 * Mon Nov 20 2017 Susi Lehtola <jussilehtola@fedoraproject.org> - 4.0.2-1
