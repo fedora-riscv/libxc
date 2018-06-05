@@ -5,7 +5,7 @@
 
 Name:           libxc
 Summary:        Library of exchange and correlation functionals for density-functional theory
-Version:        4.1.1
+Version:        4.2.0
 Release:        1%{?dist}
 License:        MPLv2.0
 Group:          Applications/Engineering
@@ -149,6 +149,9 @@ find %{buildroot}%{_libdir} -name *.la -exec rm -rf {} \;
 
 
 %changelog
+* Tue Jun 05 2018 Susi Lehtola <jussilehtola@fedoraproject.org> - 4.2.0-1
+- Update to 4.2.0.
+
 * Wed May 09 2018 Susi Lehtola <jussilehtola@fedoraproject.org> - 4.1.1-1
 - Update to 4.1.1, changing license to MPLv2 and adding Python interface.
 
