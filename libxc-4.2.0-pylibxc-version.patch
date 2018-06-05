@@ -1,0 +1,12 @@
+diff -up libxc-4.2.0/setup.py.orig libxc-4.2.0/setup.py
+--- libxc-4.2.0/setup.py.orig	2018-05-09 09:46:42.000000000 +0200
++++ libxc-4.2.0/setup.py	2018-06-05 16:03:53.263899996 +0200
+@@ -61,7 +61,7 @@ class CMakeBuild(build_ext):
+ if __name__ == "__main__":
+     setup(
+         name='pylibxc',
+-        version="4.1.1",
++        version="4.2.0",
+         description=
+         'PyLibxc is a python-bound C library of exchange and correlation functionals for density-functional (DFT) theory.',
+         author='LibXC Authors',

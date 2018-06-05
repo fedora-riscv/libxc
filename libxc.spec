@@ -12,6 +12,8 @@ Group:          Applications/Engineering
 Source0:        http://www.tddft.org/programs/octopus/down.php?file=libxc/%{version}/libxc-%{version}.tar.gz
 # Don't rebuild libxc for pylibxc
 Patch0:         libxc-4.1.1-pylibxc.patch
+# Fix incorrect version string in pylibxc
+Patch1:         libxc-4.2.0-pylibxc-version.patch
 
 URL:            http://www.tddft.org/programs/octopus/wiki/index.php/Libxc
 
@@ -82,6 +84,7 @@ This package contains the Python3 interface library to libxc.
 %prep
 %setup -q
 %patch0 -p1 -b .pylibxc
+%patch1 -p1 -b .pylibxcver
 # Plug in library soversion
 sed -i "s|@SOVERSION@|%{soversion}|g" pylibxc/core.py
 
