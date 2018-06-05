@@ -141,6 +141,8 @@ find %{buildroot}%{_libdir} -name *.la -exec rm -rf {} \;
 %{_fmoddir}/xc_f03_*.mod
 %{_fmoddir}/xc_f90_*.mod
 %{_libdir}/pkgconfig/libxc.pc
+%{_libdir}/pkgconfig/libxcf03.pc
+%{_libdir}/pkgconfig/libxcf90.pc
 
 %files -n python2-%{name}
 %{python2_sitelib}/pylibxc/
