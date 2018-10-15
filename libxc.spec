@@ -1,12 +1,21 @@
-%if 0%{?rhel} == 5
-%global _fmoddir %{_libdir}/gfortran/modules
+%if 0%{?fedora}
+%bcond_without python3
+%else
+%bcond_with python3
 %endif
+
+%if 0%{?fedora} >= 30
+%bcond_with python2
+%else
+%bcond_without python2
+%endif
+
 %global soversion 5
 
 Name:           libxc
 Summary:        Library of exchange and correlation functionals for density-functional theory
-Version:        4.2.0
-Release:        3%{?dist}
+Version:        4.2.3
+Release:        1%{?dist}
 License:        MPLv2.0
 Group:          Applications/Engineering
 Source0:        http://www.tddft.org/programs/octopus/down.php?file=libxc/%{version}/libxc-%{version}.tar.gz
@@ -19,8 +28,20 @@ URL:            http://www.tddft.org/programs/octopus/wiki/index.php/Libxc
 
 BuildRequires:  gcc-gfortran
 BuildRequires:  libtool
+
+%if %{with python2}
 BuildRequires:  python2-devel
+%endif
+%if %{with python3}
 BuildRequires:  python3-devel
+%endif
+
+%if ! %{with python2}
+Obsoletes:      python2-%{name} < %{version}-%{release}
+%endif
+%if ! %{with python3}
+Obsoletes:      python3-%{name} < %{version}-%{release}
+%endif
 
 %description
 libxc is a library of exchange and correlation functionals. Its purpose is to
@@ -45,6 +66,7 @@ the energy density and its 1st, 2nd, and (for the LDAs) 3rd derivatives.
 This package contains the development headers and library that are necessary
 in order to compile programs against libxc.
 
+%if %{with python2}
 %package -n python2-%{name}
 Summary:        Python2 interface to libxc
 BuildRequires:  python2-numpy
@@ -61,8 +83,9 @@ density approximation (GGAs), and meta-GGAs. The library provides values for
 the energy density and its 1st, 2nd, and (for the LDAs) 3rd derivatives.
 
 This package contains the Python2 interface library to libxc.
+%endif
 
-
+%if %{with python3}
 %package -n python3-%{name}
 Summary:        Python3 interface to libxc
 BuildRequires:  python3-numpy
@@ -79,7 +102,7 @@ density approximation (GGAs), and meta-GGAs. The library provides values for
 the energy density and its 1st, 2nd, and (for the LDAs) 3rd derivatives.
 
 This package contains the Python3 interface library to libxc.
-
+%endif
 
 %prep
 %setup -q
@@ -106,11 +129,15 @@ if [[ ! -f src/.libs/libxc.so.%{soversion} ]]; then
 fi
 
 # Build python interface
+%if %{with python2}
 %{py2_build}
+%endif
+%if %{with python3}
 %{py3_build}
+%endif
 
 %install
-make install DESTDIR=%{buildroot}
+%make_install
 # Move modules in the right place
 mkdir -p %{buildroot}%{_fmoddir}
 mv %{buildroot}%{_includedir}/*.mod %{buildroot}%{_fmoddir}
@@ -118,8 +145,12 @@ mv %{buildroot}%{_includedir}/*.mod %{buildroot}%{_fmoddir}
 find %{buildroot}%{_libdir} -name *.la -exec rm -rf {} \;
 
 # Install python interface
+%if %{with python2}
 %{py2_install}
+%endif
+%if %{with python3}
 %{py3_install}
+%endif
 
 %post -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
@@ -144,16 +175,23 @@ find %{buildroot}%{_libdir} -name *.la -exec rm -rf {} \;
 %{_libdir}/pkgconfig/libxcf03.pc
 %{_libdir}/pkgconfig/libxcf90.pc
 
+%if %{with python2}
 %files -n python2-%{name}
 %{python2_sitelib}/pylibxc/
 %{python2_sitelib}/pylibxc-%{version}-py*.egg-info
+%endif
 
+%if %{with python3}
 %files -n python3-%{name}
 %{python3_sitelib}/pylibxc/
 %{python3_sitelib}/pylibxc-%{version}-py*.egg-info
-
+%endif
 
 %changelog
+* Mon Oct 15 2018 Susi Lehtola <jussilehtola@fedoraproject.org> - 4.2.3-1
+- Remove python2 subpackage from rawhide.
+- Update to 4.2.3.
+
 * Fri Jul 13 2018 Fedora Release Engineering <releng@fedoraproject.org> - 4.2.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_29_Mass_Rebuild
 
