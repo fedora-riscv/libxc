@@ -21,8 +21,6 @@ Group:          Applications/Engineering
 Source0:        http://www.tddft.org/programs/octopus/down.php?file=libxc/%{version}/libxc-%{version}.tar.gz
 # Don't rebuild libxc for pylibxc
 Patch0:         libxc-4.1.1-pylibxc.patch
-# Fix incorrect version string in pylibxc
-Patch1:         libxc-4.2.0-pylibxc-version.patch
 
 URL:            http://www.tddft.org/programs/octopus/wiki/index.php/Libxc
 
@@ -31,9 +29,11 @@ BuildRequires:  libtool
 
 %if %{with python2}
 BuildRequires:  python2-devel
+BuildRequires:  python2-numpy
 %endif
 %if %{with python3}
 BuildRequires:  python3-devel
+BuildRequires:  python3-numpy
 %endif
 
 %if ! %{with python2}
@@ -69,7 +69,6 @@ in order to compile programs against libxc.
 %if %{with python2}
 %package -n python2-%{name}
 Summary:        Python2 interface to libxc
-BuildRequires:  python2-numpy
 Requires:       python2-numpy
 Requires:       %{name} = %{version}-%{release}
 BuildArch:      noarch
@@ -88,7 +87,6 @@ This package contains the Python2 interface library to libxc.
 %if %{with python3}
 %package -n python3-%{name}
 Summary:        Python3 interface to libxc
-BuildRequires:  python3-numpy
 Requires:       python3-numpy
 Requires:       %{name} = %{version}-%{release}
 BuildArch:      noarch
@@ -107,7 +105,6 @@ This package contains the Python3 interface library to libxc.
 %prep
 %setup -q
 %patch0 -p1 -b .pylibxc
-%patch1 -p1 -b .pylibxcver
 # Plug in library soversion
 sed -i "s|@SOVERSION@|%{soversion}|g" pylibxc/core.py
 
@@ -188,7 +185,7 @@ find %{buildroot}%{_libdir} -name *.la -exec rm -rf {} \;
 %endif
 
 %changelog
-* Mon Oct 15 2018 Susi Lehtola <jussilehtola@fedoraproject.org> - 4.2.3-1
+* Wed Nov 21 2018 Susi Lehtola <jussilehtola@fedoraproject.org> - 4.2.3-1
 - Remove python2 subpackage from rawhide.
 - Update to 4.2.3.
 
