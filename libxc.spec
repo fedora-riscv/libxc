@@ -149,8 +149,7 @@ find %{buildroot}%{_libdir} -name *.la -exec rm -rf {} \;
 %{py3_install}
 %endif
 
-%post -p /sbin/ldconfig
-%postun -p /sbin/ldconfig
+%ldconfig_scriptlets
 
 %files
 %doc README NEWS COPYING AUTHORS ChangeLog TODO
