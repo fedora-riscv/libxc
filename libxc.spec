@@ -17,7 +17,6 @@ Summary:        Library of exchange and correlation functionals for density-func
 Version:        4.2.3
 Release:        1%{?dist}
 License:        MPLv2.0
-Group:          Applications/Engineering
 Source0:        http://www.tddft.org/programs/octopus/down.php?file=libxc/%{version}/libxc-%{version}.tar.gz
 # Don't rebuild libxc for pylibxc
 Patch0:         libxc-4.1.1-pylibxc.patch
@@ -52,7 +51,6 @@ the energy density and its 1st, 2nd, and (for the LDAs) 3rd derivatives.
 
 %package devel
 Summary:        Development library and headers for libxc
-Group:          Development/Libraries
 Requires:       %{name}%{?_isa} = %{version}-%{release}
 Requires:       pkgconfig
 
