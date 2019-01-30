@@ -14,7 +14,7 @@
 
 Name:           libxc
 Summary:        Library of exchange and correlation functionals for density-functional theory
-Version:        4.2.3
+Version:        4.3.0
 Release:        1%{?dist}
 License:        MPLv2.0
 Source0:        http://www.tddft.org/programs/octopus/down.php?file=libxc/%{version}/libxc-%{version}.tar.gz
@@ -88,8 +88,11 @@ Summary:        Python3 interface to libxc
 Requires:       python3-numpy
 Requires:       %{name} = %{version}-%{release}
 BuildArch:      noarch
+%if 0%{?rhel}
+%{?python_provide:%python_provide python%{python3_pkgversion}-%{name}}
+%else
 %{?python_provide:%python_provide python3-%{name}}
-
+%endif
 %description -n python3-%{name}
 libxc is a library of exchange and correlation functionals. Its purpose is to
 be used in codes that implement density-functional theory. For the moment, the
@@ -147,7 +150,12 @@ find %{buildroot}%{_libdir} -name *.la -exec rm -rf {} \;
 %{py3_install}
 %endif
 
+%if 0%{?rhel} == 6 || 0%{?rhel} == 7
+%post -p /sbin/ldconfig
+%postun -p /sbin/ldconfig
+%else
 %ldconfig_scriptlets
+%endif
 
 %files
 %doc README NEWS COPYING AUTHORS ChangeLog TODO
@@ -182,6 +190,9 @@ find %{buildroot}%{_libdir} -name *.la -exec rm -rf {} \;
 %endif
 
 %changelog
+* Wed Jan 30 2019 Susi Lehtola <jussilehtola@fedoraproject.org> - 4.3.0-1
+- Update to 4.3.0.
+
 * Wed Nov 21 2018 Susi Lehtola <jussilehtola@fedoraproject.org> - 4.2.3-1
 - Remove python2 subpackage from rawhide.
 - Update to 4.2.3.
