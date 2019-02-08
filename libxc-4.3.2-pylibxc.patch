@@ -1,6 +1,6 @@
-diff -up libxc-4.1.1/pylibxc/core.py.pylibxc libxc-4.1.1/pylibxc/core.py
---- libxc-4.1.1/pylibxc/core.py.pylibxc	2018-05-07 14:39:15.000000000 +0300
-+++ libxc-4.1.1/pylibxc/core.py	2018-05-09 16:18:19.161294556 +0300
+diff -up libxc-4.3.2/pylibxc/core.py.pylibxc libxc-4.3.2/pylibxc/core.py
+--- libxc-4.3.2/pylibxc/core.py.pylibxc	2018-05-07 13:39:15.000000000 +0200
++++ libxc-4.3.2/pylibxc/core.py	2019-02-08 11:08:31.890026341 +0100
 @@ -8,25 +8,7 @@ import numpy as np
  import os
  
@@ -28,9 +28,9 @@ diff -up libxc-4.1.1/pylibxc/core.py.pylibxc libxc-4.1.1/pylibxc/core.py
  
  def get_core_path():
      """
-diff -up libxc-4.1.1/setup.py.pylibxc libxc-4.1.1/setup.py
---- libxc-4.1.1/setup.py.pylibxc	2018-05-09 10:46:42.000000000 +0300
-+++ libxc-4.1.1/setup.py	2018-05-09 16:16:18.068046789 +0300
+diff -up libxc-4.3.2/setup.py.pylibxc libxc-4.3.2/setup.py
+--- libxc-4.3.2/setup.py.pylibxc	2019-02-06 16:29:57.000000000 +0100
++++ libxc-4.3.2/setup.py	2019-02-08 11:11:25.617547856 +0100
 @@ -8,56 +8,6 @@ from setuptools import setup, find_packa
  from setuptools.command.build_ext import build_ext
  from distutils.version import LooseVersion
@@ -86,9 +86,9 @@ diff -up libxc-4.1.1/setup.py.pylibxc libxc-4.1.1/setup.py
 -
 -
  if __name__ == "__main__":
+     execfile(os.path.join(os.path.abspath(os.path.dirname(__file__)), "pylibxc/version.py"))
      setup(
-         name='pylibxc',
-@@ -88,8 +38,6 @@ if __name__ == "__main__":
+@@ -89,8 +39,6 @@ if __name__ == "__main__":
              'pytest-cov',
          ],
          packages=find_packages(),
