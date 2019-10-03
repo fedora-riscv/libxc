@@ -15,7 +15,7 @@
 Name:           libxc
 Summary:        Library of exchange and correlation functionals for density-functional theory
 Version:        4.3.3
-Release:        3%{?dist}
+Release:        4%{?dist}
 License:        MPLv2.0
 Source0:        http://www.tddft.org/programs/octopus/down.php?file=libxc/%{version}/libxc-%{version}.tar.gz
 # Don't rebuild libxc for pylibxc
@@ -190,6 +190,9 @@ find %{buildroot}%{_libdir} -name *.la -exec rm -rf {} \;
 %endif
 
 %changelog
+* Thu Oct 03 2019 Miro Hrončok <mhroncok@redhat.com> - 4.3.3-4
+- Rebuilt for Python 3.8.0rc1 (#1748018)
+
 * Mon Aug 19 2019 Miro Hrončok <mhroncok@redhat.com> - 4.3.3-3
 - Rebuilt for Python 3.8
 
