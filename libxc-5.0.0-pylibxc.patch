@@ -1,10 +1,11 @@
-diff -up libxc-4.3.3/pylibxc/core.py.pylibxc libxc-4.3.3/pylibxc/core.py
---- libxc-4.3.3/pylibxc/core.py.pylibxc	2018-05-07 13:39:15.000000000 +0200
-+++ libxc-4.3.3/pylibxc/core.py	2019-02-11 13:01:27.788266185 +0100
-@@ -8,25 +8,7 @@ import numpy as np
+diff -up libxc-5.0.0/pylibxc/core.py.pylibxc libxc-5.0.0/pylibxc/core.py
+--- libxc-5.0.0/pylibxc/core.py.pylibxc	2020-04-06 09:39:00.000000000 +0200
++++ libxc-5.0.0/pylibxc/core.py	2020-04-06 16:20:14.836720208 +0200
+@@ -7,26 +7,7 @@ import ctypes.util
+ import numpy as np
  import os
  
- # Attempt to load the compiled C code
+-# Attempt to load the compiled C code
 -core = None
 -
 -# First check the local folder
@@ -13,10 +14,10 @@ diff -up libxc-4.3.3/pylibxc/core.py.pylibxc libxc-4.3.3/pylibxc/core.py
 -    core = np.ctypeslib.load_library("libxc", dirpath)
 -except OSError:
 -    # If no libxc is local, check LD_LIBRARY_PATHS's
--    libxc_path = ctypes.util.find_library("libxc")
+-    __libxc_path = ctypes.util.find_library("xc")
 -
 -    # If we still havent found it, give up and throw an error
--    if libxc_path is None:
+-    if __libxc_path is None:
 -        raise ImportError(
 -            "LibXC Shared object not found, searched Python module local directory and library paths"
 -        )
@@ -28,10 +29,10 @@ diff -up libxc-4.3.3/pylibxc/core.py.pylibxc libxc-4.3.3/pylibxc/core.py
  
  def get_core_path():
      """
-diff -up libxc-4.3.3/setup.py.pylibxc libxc-4.3.3/setup.py
---- libxc-4.3.3/setup.py.pylibxc	2019-02-11 11:20:40.000000000 +0100
-+++ libxc-4.3.3/setup.py	2019-02-11 13:01:27.791266054 +0100
-@@ -8,56 +8,6 @@ from setuptools import setup, find_packa
+diff -up libxc-5.0.0/setup.py.pylibxc libxc-5.0.0/setup.py
+--- libxc-5.0.0/setup.py.pylibxc	2020-04-06 09:39:00.000000000 +0200
++++ libxc-5.0.0/setup.py	2020-04-06 16:21:12.020256649 +0200
+@@ -8,58 +8,6 @@ from setuptools import setup, find_packa
  from setuptools.command.build_ext import build_ext
  from distutils.version import LooseVersion
  
@@ -63,6 +64,8 @@ diff -up libxc-4.3.3/setup.py.pylibxc libxc-4.3.3/setup.py
 -        cmake_args = ['-DCMAKE_LIBRARY_OUTPUT_DIRECTORY=' + extdir]
 -        cmake_args += ['-DBUILD_SHARED_LIBS=ON']
 -        cmake_args += ['-DBUILD_TESTING=OFF']
+-        # Python tests need third derivatives
+-        cmake_args += ['-DDISABLE_KXC=OFF']
 -
 -        cfg = 'Debug' if self.debug else 'Release'
 -        build_args = ['--config', cfg]
@@ -88,7 +91,7 @@ diff -up libxc-4.3.3/setup.py.pylibxc libxc-4.3.3/setup.py
  if __name__ == "__main__":
      exec(open(os.path.join(os.path.abspath(os.path.dirname(__file__)), "pylibxc/version.py")).read())
      setup(
-@@ -89,8 +39,6 @@ if __name__ == "__main__":
+@@ -91,8 +39,6 @@ if __name__ == "__main__":
              'pytest-cov',
          ],
          packages=find_packages(),
