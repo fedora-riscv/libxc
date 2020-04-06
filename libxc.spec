@@ -10,7 +10,7 @@
 %bcond_without python2
 %endif
 
-%global soversion 5
+%global soversion 6
 
 Name:           libxc
 Summary:        Library of exchange and correlation functionals for density-functional theory
