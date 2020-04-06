@@ -112,7 +112,7 @@ sed -i "s|@SOVERSION@|%{soversion}|g" pylibxc/core.py
 %build
 # Don't insert C code during preprocessing
 export FCCPP="cpp -ffreestanding"
-%configure --enable-shared --disable-static
+%configure --enable-shared --disable-static --enable-vxc --enable-fxc --enable-kxc --enable-lxc
 # Remove rpath
 sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
 sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
@@ -191,7 +191,7 @@ find %{buildroot}%{_libdir} -name *.la -exec rm -rf {} \;
 
 %changelog
 * Mon Apr 06 2020 Susi Lehtola <jussilehtola@fedoraproject.org> - 5.0.0-1
-- Update to 5.0.0.
+- Update to 5.0.0, enabling support up to 4th derivatives.
 
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.3.3-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
