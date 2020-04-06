@@ -160,16 +160,13 @@ find %{buildroot}%{_libdir} -name *.la -exec rm -rf {} \;
 %{_bindir}/xc-info
 %{_bindir}/xc-threshold
 %{_libdir}/libxc.so.%{soversion}*
-%{_libdir}/libxcf03.so.%{soversion}*
 %{_libdir}/libxcf90.so.%{soversion}*
 
 %files devel
 %{_libdir}/libxc.so
-%{_libdir}/libxcf03.so
 %{_libdir}/libxcf90.so
 %{_includedir}/xc*.h
 %{_fmoddir}/libxc_funcs_m.mod
-%{_fmoddir}/xc_f03_*.mod
 %{_fmoddir}/xc_f90_*.mod
 %{_libdir}/pkgconfig/libxc.pc
 %{_libdir}/pkgconfig/libxcf03.pc
@@ -190,6 +187,8 @@ find %{buildroot}%{_libdir} -name *.la -exec rm -rf {} \;
 %changelog
 * Mon Apr 06 2020 Susi Lehtola <jussilehtola@fedoraproject.org> - 5.0.0-1
 - Update to 5.0.0, enabling support up to 4th derivatives.
+- libxcf03 has been replaced by libxcf90; the old non-ISO f90 frontend has
+  been deprecated.
 
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.3.3-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
