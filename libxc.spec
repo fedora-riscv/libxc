@@ -166,7 +166,6 @@ find %{buildroot}%{_libdir} -name *.la -exec rm -rf {} \;
 %{_libdir}/libxc.so
 %{_libdir}/libxcf90.so
 %{_includedir}/xc*.h
-%{_fmoddir}/libxc_funcs_m.mod
 %{_fmoddir}/xc_f90_*.mod
 %{_libdir}/pkgconfig/libxc.pc
 %{_libdir}/pkgconfig/libxcf03.pc
