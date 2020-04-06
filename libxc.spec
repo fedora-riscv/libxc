@@ -14,10 +14,10 @@
 
 Name:           libxc
 Summary:        Library of exchange and correlation functionals for density-functional theory
-Version:        4.3.3
-Release:        3%{?dist}
+Version:        4.3.4
+Release:        1%{?dist}
 License:        MPLv2.0
-Source0:        http://www.tddft.org/programs/octopus/down.php?file=libxc/%{version}/libxc-%{version}.tar.gz
+Source0:        http://www.tddft.org/programs/libxc/down.php?file=%{version}/libxc-%{version}.tar.gz
 # Don't rebuild libxc for pylibxc
 Patch0:         libxc-4.3.3-pylibxc.patch
 
@@ -190,6 +190,15 @@ find %{buildroot}%{_libdir} -name *.la -exec rm -rf {} \;
 %endif
 
 %changelog
+* Mon Apr 06 2020 Susi Lehtola <jussilehtola@fedoraproject.org> - 4.3.4-1
+- Update to 4.3.4.
+
+* Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.3.3-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
+
+* Thu Oct 03 2019 Miro Hrončok <mhroncok@redhat.com> - 4.3.3-4
+- Rebuilt for Python 3.8.0rc1 (#1748018)
+
 * Mon Aug 19 2019 Miro Hrončok <mhroncok@redhat.com> - 4.3.3-3
 - Rebuilt for Python 3.8
 
