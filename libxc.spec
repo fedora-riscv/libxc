@@ -140,6 +140,9 @@ mv %{buildroot}%{_includedir}/*.mod %{buildroot}%{_fmoddir}
 # Get rid of .la files
 find %{buildroot}%{_libdir} -name *.la -exec rm -rf {} \;
 
+# Remove bibtex bibliography placed in an odd location
+rm -f %{buildroot}%{_includedir}/libxc.bib
+
 # Install python interface
 %if %{with python2}
 %{py2_install}
@@ -156,7 +159,7 @@ find %{buildroot}%{_libdir} -name *.la -exec rm -rf {} \;
 %endif
 
 %files
-%doc README NEWS COPYING AUTHORS ChangeLog TODO
+%doc README NEWS COPYING AUTHORS ChangeLog TODO libxc.bib
 %{_bindir}/xc-info
 %{_bindir}/xc-threshold
 %{_libdir}/libxc.so.%{soversion}*
