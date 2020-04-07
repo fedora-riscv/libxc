@@ -10,16 +10,16 @@
 %bcond_without python2
 %endif
 
-%global soversion 5
+%global soversion 9
 
 Name:           libxc
 Summary:        Library of exchange and correlation functionals for density-functional theory
-Version:        4.3.4
+Version:        5.0.0
 Release:        1%{?dist}
 License:        MPLv2.0
 Source0:        http://www.tddft.org/programs/libxc/down.php?file=%{version}/libxc-%{version}.tar.gz
 # Don't rebuild libxc for pylibxc
-Patch0:         libxc-4.3.3-pylibxc.patch
+Patch0:         libxc-5.0.0-pylibxc.patch
 
 URL:            http://www.tddft.org/programs/octopus/wiki/index.php/Libxc
 
@@ -112,13 +112,11 @@ sed -i "s|@SOVERSION@|%{soversion}|g" pylibxc/core.py
 %build
 # Don't insert C code during preprocessing
 export FCCPP="cpp -ffreestanding"
-%configure --enable-shared --disable-static
+%configure --enable-shared --disable-static --enable-vxc --enable-fxc --enable-kxc --enable-lxc
 # Remove rpath
 sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
 sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
-# SMP make doesn't work
-#make %{?_smp_mflags}
-make
+make %{?_smp_mflags}
 
 # Check we have the right soversion
 if [[ ! -f src/.libs/libxc.so.%{soversion} ]]; then
@@ -142,6 +140,9 @@ mv %{buildroot}%{_includedir}/*.mod %{buildroot}%{_fmoddir}
 # Get rid of .la files
 find %{buildroot}%{_libdir} -name *.la -exec rm -rf {} \;
 
+# Remove bibtex bibliography placed in an odd location
+rm -f %{buildroot}%{_includedir}/libxc.bib
+
 # Install python interface
 %if %{with python2}
 %{py2_install}
@@ -158,20 +159,16 @@ find %{buildroot}%{_libdir} -name *.la -exec rm -rf {} \;
 %endif
 
 %files
-%doc README NEWS COPYING AUTHORS ChangeLog TODO
+%doc README NEWS COPYING AUTHORS ChangeLog TODO libxc.bib
 %{_bindir}/xc-info
 %{_bindir}/xc-threshold
 %{_libdir}/libxc.so.%{soversion}*
-%{_libdir}/libxcf03.so.%{soversion}*
 %{_libdir}/libxcf90.so.%{soversion}*
 
 %files devel
 %{_libdir}/libxc.so
-%{_libdir}/libxcf03.so
 %{_libdir}/libxcf90.so
 %{_includedir}/xc*.h
-%{_fmoddir}/libxc_funcs_m.mod
-%{_fmoddir}/xc_f03_*.mod
 %{_fmoddir}/xc_f90_*.mod
 %{_libdir}/pkgconfig/libxc.pc
 %{_libdir}/pkgconfig/libxcf03.pc
@@ -190,6 +187,11 @@ find %{buildroot}%{_libdir} -name *.la -exec rm -rf {} \;
 %endif
 
 %changelog
+* Tue Apr 07 2020 Susi Lehtola <jussilehtola@fedoraproject.org> - 5.0.0-1
+- Update to 5.0.0, enabling support up to 4th derivatives.
+- libxcf03 has been replaced by libxcf90; the old non-ISO f90 frontend has
+  been deprecated.
+
 * Mon Apr 06 2020 Susi Lehtola <jussilehtola@fedoraproject.org> - 4.3.4-1
 - Update to 4.3.4.
 
