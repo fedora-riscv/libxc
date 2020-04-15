@@ -187,7 +187,7 @@ rm -f %{buildroot}%{_includedir}/libxc.bib
 %endif
 
 %changelog
-* Tue Apr 07 2020 Susi Lehtola <jussilehtola@fedoraproject.org> - 5.0.0-1
+* Wed Apr 15 2020 Susi Lehtola <jussilehtola@fedoraproject.org> - 5.0.0-1
 - Update to 5.0.0, enabling support up to 4th derivatives.
 - libxcf03 has been replaced by libxcf90; the old non-ISO f90 frontend has
   been deprecated.
