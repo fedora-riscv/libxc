@@ -15,7 +15,7 @@
 Name:           libxc
 Summary:        Library of exchange and correlation functionals for density-functional theory
 Version:        5.0.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 License:        MPLv2.0
 Source0:        http://www.tddft.org/programs/libxc/down.php?file=%{version}/libxc-%{version}.tar.gz
 # Don't rebuild libxc for pylibxc
@@ -187,6 +187,9 @@ rm -f %{buildroot}%{_includedir}/libxc.bib
 %endif
 
 %changelog
+* Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 5.0.0-2
+- Rebuilt for Python 3.9
+
 * Wed Apr 15 2020 Susi Lehtola <jussilehtola@fedoraproject.org> - 5.0.0-1
 - Update to 5.0.0, enabling support up to 4th derivatives.
 - libxcf03 has been replaced by libxcf90; the old non-ISO f90 frontend has
