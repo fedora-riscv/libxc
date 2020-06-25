@@ -15,7 +15,7 @@
 Name:           libxc
 Summary:        Library of exchange and correlation functionals for density-functional theory
 Version:        5.0.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 License:        MPLv2.0
 Source0:        http://www.tddft.org/programs/libxc/down.php?file=%{version}/libxc-%{version}.tar.gz
 # Don't rebuild libxc for pylibxc
@@ -33,6 +33,7 @@ BuildRequires:  python2-numpy
 %if %{with python3}
 BuildRequires:  python3-devel
 BuildRequires:  python3-numpy
+BuildRequires:  python3-setuptools
 %endif
 
 %if ! %{with python2}
@@ -187,6 +188,9 @@ rm -f %{buildroot}%{_includedir}/libxc.bib
 %endif
 
 %changelog
+* Thu Jun 25 2020 Susi Lehtola <jussilehtola@fedoraproject.org> - 5.0.0-3
+- BR: python3-setuptools
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 5.0.0-2
 - Rebuilt for Python 3.9
 
