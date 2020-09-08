@@ -1,3 +1,6 @@
+# Tests cannot be run at the moment since the Python build breaks the makefiles
+%bcond_with tests
+
 %if 0%{?fedora}
 %bcond_without python3
 %else
@@ -159,8 +162,11 @@ rm -f %{buildroot}%{_includedir}/libxc.bib
 %ldconfig_scriptlets
 %endif
 
+# Run tests
+%if %{with tests}
 %check
 make check
+%endif
 
 %files
 %doc README NEWS AUTHORS ChangeLog TODO libxc.bib
