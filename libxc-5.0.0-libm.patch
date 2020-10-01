@@ -1,0 +1,23 @@
+diff -up libxc-5.0.0/src/Makefile.am.lm libxc-5.0.0/src/Makefile.am
+--- libxc-5.0.0/src/Makefile.am.lm	2020-04-06 10:22:19.000000000 +0200
++++ libxc-5.0.0/src/Makefile.am	2020-10-01 15:33:10.222333673 +0200
+@@ -112,6 +112,7 @@ libxc_la_FUNC_SOURCES = \
+ 
+ libxc_la_SOURCES = references.c $(libxc_la_FUNC_SOURCES)
+ libxc_la_LDFLAGS = -version-info $(XC_LT_VERSION)
++libxc_la_LIBADD = -lm
+ 
+ if COMPILE_FORTRAN
+   lib_LTLIBRARIES += libxcf90.la
+diff -up libxc-5.0.0/src/Makefile.in.lm libxc-5.0.0/src/Makefile.in
+--- libxc-5.0.0/src/Makefile.in.lm	2020-04-06 19:05:55.000000000 +0200
++++ libxc-5.0.0/src/Makefile.in	2020-10-01 15:34:09.765771820 +0200
+@@ -147,7 +147,7 @@ am__installdirs = "$(DESTDIR)$(libdir)"
+ 	"$(DESTDIR)$(fmoddir)" "$(DESTDIR)$(includedir)" \
+ 	"$(DESTDIR)$(includedir)"
+ LTLIBRARIES = $(lib_LTLIBRARIES)
+-libxc_la_LIBADD =
++libxc_la_LIBADD = -lm
+ am__objects_1 = special_functions.lo bessel.lo expint_e1.lo \
+ 	faddeeva.lo integrate.lo math_brent.lo util.lo mix_func.lo \
+ 	func_info.lo functionals.lo version.lo func_reference.lo \
