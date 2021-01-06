@@ -28,6 +28,7 @@ Patch1:         libxc-5.0.0-libm.patch
 
 URL:            http://www.tddft.org/programs/octopus/wiki/index.php/Libxc
 
+BuildRequires: make
 BuildRequires:  gcc-gfortran
 BuildRequires:  libtool
 
