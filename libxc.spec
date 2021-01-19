@@ -23,9 +23,9 @@ License:        MPLv2.0
 Source0:        http://www.tddft.org/programs/libxc/down.php?file=%{version}/libxc-%{version}.tar.gz
 # Don't rebuild libxc for pylibxc
 Patch0:         libxc-5.1.0-pylibxc.patch
-
 URL:            http://www.tddft.org/programs/octopus/wiki/index.php/Libxc
 
+BuildRequires: make
 BuildRequires:  gcc-gfortran
 BuildRequires:  libtool
 
@@ -110,6 +110,7 @@ This package contains the Python3 interface library to libxc.
 %prep
 %setup -q
 %patch0 -p1 -b .pylibxc
+%patch1 -p1 -b .lm
 # Plug in library soversion
 sed -i "s|@SOVERSION@|%{soversion}|g" pylibxc/core.py
 
@@ -203,6 +204,9 @@ make check
 %changelog
 * Tue Jan 19 2021 Susi Lehtola <jussilehtola@fedoraproject.org> - 5.1.0-1
 - Update to version 5.1.0.
+
+* Thu Oct 01 2020 Dominik Mierzejewski <rpm@greysector.net> - 5.0.0-6
+- Link with libm directly (rhbz#1883501)
 
 * Tue Sep 08 2020 Susi Lehtola <jussilehtola@fedoraproject.org> - 5.0.0-5
 - Enable tests.
