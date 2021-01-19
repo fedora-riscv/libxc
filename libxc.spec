@@ -169,7 +169,7 @@ make check
 %endif
 
 %files
-%doc README.md NEWS AUTHORS ChangeLog.md libxc.bib
+%doc README NEWS AUTHORS ChangeLog.md libxc.bib
 %license COPYING
 %{_bindir}/xc-info
 %{_bindir}/xc-threshold
