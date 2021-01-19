@@ -17,12 +17,12 @@
 
 Name:           libxc
 Summary:        Library of exchange and correlation functionals for density-functional theory
-Version:        5.0.0
-Release:        5%{?dist}
+Version:        5.1.0
+Release:        1%{?dist}
 License:        MPLv2.0
 Source0:        http://www.tddft.org/programs/libxc/down.php?file=%{version}/libxc-%{version}.tar.gz
 # Don't rebuild libxc for pylibxc
-Patch0:         libxc-5.0.0-pylibxc.patch
+Patch0:         libxc-5.1.0-pylibxc.patch
 
 URL:            http://www.tddft.org/programs/octopus/wiki/index.php/Libxc
 
@@ -169,18 +169,21 @@ make check
 %endif
 
 %files
-%doc README NEWS AUTHORS ChangeLog TODO libxc.bib
+%doc README.md NEWS AUTHORS ChangeLog.md libxc.bib
 %license COPYING
 %{_bindir}/xc-info
 %{_bindir}/xc-threshold
 %{_libdir}/libxc.so.%{soversion}*
 %{_libdir}/libxcf90.so.%{soversion}*
+%{_libdir}/libxcf03.so.%{soversion}*
 
 %files devel
 %{_libdir}/libxc.so
 %{_libdir}/libxcf90.so
+%{_libdir}/libxcf03.so
 %{_includedir}/xc*.h
 %{_fmoddir}/xc_f90_*.mod
+%{_fmoddir}/xc_f03_*.mod
 %{_libdir}/pkgconfig/libxc.pc
 %{_libdir}/pkgconfig/libxcf03.pc
 %{_libdir}/pkgconfig/libxcf90.pc
@@ -198,6 +201,9 @@ make check
 %endif
 
 %changelog
+* Tue Jan 19 2021 Susi Lehtola <jussilehtola@fedoraproject.org> - 5.1.0-1
+- Update to version 5.1.0.
+
 * Tue Sep 08 2020 Susi Lehtola <jussilehtola@fedoraproject.org> - 5.0.0-5
 - Enable tests.
 
