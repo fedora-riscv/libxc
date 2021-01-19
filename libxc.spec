@@ -110,7 +110,6 @@ This package contains the Python3 interface library to libxc.
 %prep
 %setup -q
 %patch0 -p1 -b .pylibxc
-%patch1 -p1 -b .lm
 # Plug in library soversion
 sed -i "s|@SOVERSION@|%{soversion}|g" pylibxc/core.py
 
