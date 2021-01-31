@@ -117,7 +117,7 @@ sed -i "s|@SOVERSION@|%{soversion}|g" pylibxc/core.py
 # Don't insert C code during preprocessing
 export FCCPP="cpp -ffreestanding"
 # Disable var tracking assignments for C sources, since it fails anyhow due to the size of the sources
-export CFLAGS="%{optflags} -fnovar-tracking-assignments"
+export CFLAGS="%{optflags} -fno-var-tracking-assignments"
 %configure --enable-shared --disable-static --enable-vxc --enable-fxc --enable-kxc --enable-lxc
 # Remove rpath
 sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
