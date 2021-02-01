@@ -13,12 +13,17 @@
 %bcond_without python2
 %endif
 
+# Turn off LTO for 32-bit targets
+%ifarch %{arm} %{ix86}
+%global _lto_cflags %nil
+%endif
+
 %global soversion 9
 
 Name:           libxc
 Summary:        Library of exchange and correlation functionals for density-functional theory
 Version:        5.1.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 License:        MPLv2.0
 Source0:        http://www.tddft.org/programs/libxc/down.php?file=%{version}/libxc-%{version}.tar.gz
 # Don't rebuild libxc for pylibxc
@@ -203,6 +208,9 @@ make check
 %endif
 
 %changelog
+* Mon Feb 01 2021 Susi Lehtola <jussilehtola@fedoraproject.org> - 5.1.0-4
+- Disable LTO on 32-bit architectures.
+
 * Sun Jan 31 2021 Susi Lehtola <jussilehtola@fedoraproject.org> - 5.1.0-3
 - Disable variable tracking assignments.
 
