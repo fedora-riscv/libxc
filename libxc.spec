@@ -13,17 +13,20 @@
 %bcond_without python2
 %endif
 
-# Turn off LTO for 32-bit targets
+# Turn off LTO and 4th derivatives for 32-bit targets
 %ifarch %{arm} %{ix86}
 %global _lto_cflags %nil
+%global lxcflag --disable-lxc
+%else
+%global lxcflag --enable-lxc
 %endif
 
 %global soversion 9
 
 Name:           libxc
 Summary:        Library of exchange and correlation functionals for density-functional theory
-Version:        5.1.0
-Release:        4%{?dist}
+Version:        5.1.1
+Release:        1%{?dist}
 License:        MPLv2.0
 Source0:        http://www.tddft.org/programs/libxc/down.php?file=%{version}/libxc-%{version}.tar.gz
 # Don't rebuild libxc for pylibxc
@@ -56,7 +59,7 @@ libxc is a library of exchange and correlation functionals. Its purpose is to
 be used in codes that implement density-functional theory. For the moment, the
 library includes most of the local density approximations (LDAs), generalized
 density approximation (GGAs), and meta-GGAs. The library provides values for
-the energy density and its 1st, 2nd, and (for the LDAs) 3rd derivatives.
+the energy density and its 1st, 2nd, 3rd, and 4th derivatives.
 
 %package devel
 Summary:        Development library and headers for libxc
@@ -68,7 +71,7 @@ libxc is a library of exchange and correlation functionals. Its purpose is to
 be used in codes that implement density-functional theory. For the moment, the
 library includes most of the local density approximations (LDAs), generalized
 density approximation (GGAs), and meta-GGAs. The library provides values for
-the energy density and its 1st, 2nd, and (for the LDAs) 3rd derivatives.
+the energy density and its 1st, 2nd, 3rd, and 4th derivatives.
 
 This package contains the development headers and library that are necessary
 in order to compile programs against libxc.
@@ -86,7 +89,7 @@ libxc is a library of exchange and correlation functionals. Its purpose is to
 be used in codes that implement density-functional theory. For the moment, the
 library includes most of the local density approximations (LDAs), generalized
 density approximation (GGAs), and meta-GGAs. The library provides values for
-the energy density and its 1st, 2nd, and (for the LDAs) 3rd derivatives.
+the energy density and its 1st, 2nd, 3rd, and 4th derivatives.
 
 This package contains the Python2 interface library to libxc.
 %endif
@@ -107,7 +110,7 @@ libxc is a library of exchange and correlation functionals. Its purpose is to
 be used in codes that implement density-functional theory. For the moment, the
 library includes most of the local density approximations (LDAs), generalized
 density approximation (GGAs), and meta-GGAs. The library provides values for
-the energy density and its 1st, 2nd, and (for the LDAs) 3rd derivatives.
+the energy density and its 1st, 2nd, 3rd, and 4th derivatives.
 
 This package contains the Python3 interface library to libxc.
 %endif
@@ -123,7 +126,7 @@ sed -i "s|@SOVERSION@|%{soversion}|g" pylibxc/core.py
 export FCCPP="cpp -ffreestanding"
 # Disable var tracking assignments for C sources, since it fails anyhow due to the size of the sources
 export CFLAGS="%{optflags} -fno-var-tracking-assignments"
-%configure --enable-shared --disable-static --enable-vxc --enable-fxc --enable-kxc --enable-lxc
+%configure --enable-shared --disable-static --enable-vxc --enable-fxc --enable-kxc %{lxcflag}
 # Remove rpath
 sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
 sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
@@ -208,6 +211,10 @@ make check
 %endif
 
 %changelog
+* Tue Feb 09 2021 Susi Lehtola <jussilehtola@fedoraproject.org> - 5.1.1-1
+- Disable 4th derivatives on 32-bit architectures due to compiler problems.
+- Update to 5.1.1.
+
 * Mon Feb 01 2021 Susi Lehtola <jussilehtola@fedoraproject.org> - 5.1.0-4
 - Disable LTO on 32-bit architectures.
 
