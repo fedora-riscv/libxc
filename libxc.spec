@@ -25,7 +25,7 @@
 
 Name:           libxc
 Summary:        Library of exchange and correlation functionals for density-functional theory
-Version:        5.1.2
+Version:        5.1.3
 Release:        1%{?dist}
 License:        MPLv2.0
 Source0:        http://www.tddft.org/programs/libxc/down.php?file=%{version}/libxc-%{version}.tar.gz
@@ -211,6 +211,9 @@ make check
 %endif
 
 %changelog
+* Tue Mar 30 2021 Susi Lehtola <jussilehtola@fedoraproject.org> - 5.1.3-1
+- Update to 5.1.3.
+
 * Fri Feb 12 2021 Susi Lehtola <jussilehtola@fedoraproject.org> - 5.1.2-1
 - Update to 5.1.2.
 
