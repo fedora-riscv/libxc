@@ -1,17 +1,17 @@
-diff -up libxc-hotfix5.1.0/pylibxc/core.py.pylibxc libxc-hotfix5.1.0/pylibxc/core.py
---- libxc-hotfix5.1.0/pylibxc/core.py.pylibxc	2021-01-05 15:24:01.000000000 -0500
-+++ libxc-hotfix5.1.0/pylibxc/core.py	2021-01-05 17:02:18.432799135 -0500
-@@ -7,26 +7,7 @@ import ctypes.util
- import numpy as np
+diff -up libxc-5.1.4/pylibxc/core.py.pylibxc libxc-5.1.4/pylibxc/core.py
+--- libxc-5.1.4/pylibxc/core.py.pylibxc	2021-05-12 15:49:47.445783078 +0000
++++ libxc-5.1.4/pylibxc/core.py	2021-05-12 15:50:46.130762674 +0000
+@@ -8,26 +8,8 @@ import numpy as np
  import os
  
--# Attempt to load the compiled C code
+ # Attempt to load the compiled C code
 -core = None
+-__libxc_path = None
 -
 -# First check the local folder
 -try:
--    dirpath = os.path.abspath(os.path.dirname(__file__))
--    core = np.ctypeslib.load_library("libxc", dirpath)
+-    __libxc_path = os.path.abspath(os.path.dirname(__file__))
+-    core = np.ctypeslib.load_library("libxc", __libxc_path)
 -except OSError:
 -    # If no libxc is local, check LD_LIBRARY_PATHS's
 -    __libxc_path = ctypes.util.find_library("xc")
@@ -26,13 +26,14 @@ diff -up libxc-hotfix5.1.0/pylibxc/core.py.pylibxc libxc-hotfix5.1.0/pylibxc/cor
 -    core = ctypes.CDLL(__libxc_path)
 -
 +core = ctypes.CDLL("libxc.so.@SOVERSION@")
++__libxc_path = "@LIBDIR@"
  
  def get_core_path():
      """
-diff -up libxc-hotfix5.1.0/setup.py.pylibxc libxc-hotfix5.1.0/setup.py
---- libxc-hotfix5.1.0/setup.py.pylibxc	2021-01-05 15:24:01.000000000 -0500
-+++ libxc-hotfix5.1.0/setup.py	2021-01-05 17:03:05.833227261 -0500
-@@ -8,58 +8,6 @@ from setuptools import setup, find_packa
+diff -up libxc-5.1.4/setup.py.pylibxc libxc-5.1.4/setup.py
+--- libxc-5.1.4/setup.py.pylibxc	2021-04-11 15:41:00.000000000 +0000
++++ libxc-5.1.4/setup.py	2021-05-12 15:51:41.967791793 +0000
+@@ -8,64 +8,6 @@ from setuptools import setup, find_packa
  from setuptools.command.build_ext import build_ext
  from distutils.version import LooseVersion
  
@@ -77,7 +78,13 @@ diff -up libxc-hotfix5.1.0/setup.py.pylibxc libxc-hotfix5.1.0/setup.py
 -            build_args += ['--', '/m']
 -        else:
 -            cmake_args += ['-DCMAKE_BUILD_TYPE=' + cfg]
--            build_args += ['--', '-j8']
+-            nprocs = 1
+-            try:
+-                import multiprocessing as mp
+-                nprocs = mp.cpu_count()
+-            except ImportError:
+-                pass
+-            build_args += ['--', '-j{}'.format(nprocs)]
 -
 -        env = os.environ.copy()
 -        env['CXXFLAGS'] = '{} -DVERSION_INFO=\\"{}\\"'.format(
@@ -91,7 +98,7 @@ diff -up libxc-hotfix5.1.0/setup.py.pylibxc libxc-hotfix5.1.0/setup.py
  if __name__ == "__main__":
      exec(open(os.path.join(os.path.abspath(os.path.dirname(__file__)), "pylibxc/version.py")).read())
      setup(
-@@ -91,8 +39,6 @@ if __name__ == "__main__":
+@@ -97,8 +39,6 @@ if __name__ == "__main__":
              'pytest-cov',
          ],
          packages=find_packages(),

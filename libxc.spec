@@ -30,7 +30,7 @@ Release:        1%{?dist}
 License:        MPLv2.0
 Source0:        http://www.tddft.org/programs/libxc/down.php?file=%{version}/libxc-%{version}.tar.gz
 # Don't rebuild libxc for pylibxc
-Patch0:         libxc-5.1.0-pylibxc.patch
+Patch0:         libxc-5.1.4-pylibxc.patch
 URL:            http://www.tddft.org/programs/octopus/wiki/index.php/Libxc
 
 BuildRequires: make
