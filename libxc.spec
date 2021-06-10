@@ -25,15 +25,15 @@
 
 Name:           libxc
 Summary:        Library of exchange and correlation functionals for density-functional theory
-Version:        5.1.4
-Release:        2%{?dist}
+Version:        5.1.5
+Release:        1%{?dist}
 License:        MPLv2.0
 Source0:        http://www.tddft.org/programs/libxc/down.php?file=%{version}/libxc-%{version}.tar.gz
 # Don't rebuild libxc for pylibxc
 Patch0:         libxc-5.1.4-pylibxc.patch
 URL:            http://www.tddft.org/programs/octopus/wiki/index.php/Libxc
 
-BuildRequires: make
+BuildRequires:  make
 BuildRequires:  gcc-gfortran
 BuildRequires:  libtool
 
@@ -211,6 +211,9 @@ make check
 %endif
 
 %changelog
+* Thu Jun 10 2021 Susi Lehtola <jussilehtola@fedoraproject.org> - 5.1.5-1
+- Update to 5.1.5.
+
 * Fri Jun 04 2021 Python Maint <python-maint@redhat.com> - 5.1.4-2
 - Rebuilt for Python 3.10
 
