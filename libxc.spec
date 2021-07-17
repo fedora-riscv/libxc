@@ -13,20 +13,25 @@
 %bcond_without python2
 %endif
 
-# Turn off LTO and 4th derivatives for 32-bit targets
-%ifarch %{arm} %{ix86}
+# Turn off LTO for architectures where this fails
+%ifarch %{arm} %{ix86} s390x
 %global _lto_cflags %nil
+%endif
+
+# Turn off 4th derivatives for 32-bit targets
+%ifarch %{arm} %{ix86}
 %global lxcflag --disable-lxc
 %else
 %global lxcflag --enable-lxc
 %endif
 
+# Shared library version
 %global soversion 9
 
 Name:           libxc
 Summary:        Library of exchange and correlation functionals for density-functional theory
 Version:        5.1.5
-Release:        1%{?dist}
+Release:        2%{?dist}
 License:        MPLv2.0
 Source0:        http://www.tddft.org/programs/libxc/down.php?file=%{version}/libxc-%{version}.tar.gz
 # Don't rebuild libxc for pylibxc
@@ -211,6 +216,9 @@ make check
 %endif
 
 %changelog
+* Sat Jul 17 2021 Susi Lehtola <jussilehtola@fedoraproject.org> - 5.1.5-2
+- Turn off LTO on s390x since it fails on Fedora 33.
+
 * Thu Jun 10 2021 Susi Lehtola <jussilehtola@fedoraproject.org> - 5.1.5-1
 - Update to 5.1.5.
 
