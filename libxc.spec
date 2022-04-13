@@ -31,7 +31,7 @@
 Name:           libxc
 Summary:        Library of exchange and correlation functionals for density-functional theory
 Version:        5.2.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 License:        MPLv2.0
 Source0:        http://www.tddft.org/programs/libxc/down.php?file=%{version}/libxc-%{version}.tar.gz
 # Don't rebuild libxc for pylibxc
@@ -124,7 +124,7 @@ This package contains the Python3 interface library to libxc.
 %setup -q
 %patch0 -p1 -b .pylibxc
 # Plug in library soversion
-sed -i "s|@SOVERSION@|%{soversion}|g" pylibxc/core.py
+sed -i "s|@SOVERSION@|%{soversion}|g;s|@LIBDIR@|%{_libdir}|g" pylibxc/core.py
 
 %build
 # Don't insert C code during preprocessing
@@ -216,6 +216,9 @@ make check
 %endif
 
 %changelog
+* Wed Apr 13 2022 Susi Lehtola <jussilehtola@fedoraproject.org> - 5.2.2-2
+- Forgot to expand one cosmetic macro in the Python interface.
+
 * Tue Feb 01 2022 Susi Lehtola <jussilehtola@fedoraproject.org> - 5.2.2-1
 - Update to 5.2.2.
 
