@@ -31,7 +31,7 @@
 Name:           libxc
 Summary:        Library of exchange and correlation functionals for density-functional theory
 Version:        5.2.2
-Release:        2%{?dist}
+Release:        3%{?dist}
 License:        MPLv2.0
 Source0:        http://www.tddft.org/programs/libxc/down.php?file=%{version}/libxc-%{version}.tar.gz
 # Don't rebuild libxc for pylibxc
@@ -216,6 +216,9 @@ make check
 %endif
 
 %changelog
+* Mon Jun 13 2022 Python Maint <python-maint@redhat.com> - 5.2.2-3
+- Rebuilt for Python 3.11
+
 * Wed Apr 13 2022 Susi Lehtola <jussilehtola@fedoraproject.org> - 5.2.2-2
 - Forgot to expand one cosmetic macro in the Python interface.
 
