@@ -7,7 +7,7 @@
 %bcond_with python3
 %endif
 
-%if 0%{?fedora} >= 30
+%if 0%{?fedora} >= 30 || 0%{?rhel} >= 9
 %bcond_with python2
 %else
 %bcond_without python2
