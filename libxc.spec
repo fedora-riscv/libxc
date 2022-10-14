@@ -25,6 +25,8 @@ URL:            http://www.tddft.org/programs/octopus/wiki/index.php/Libxc
 
 BuildRequires:  make
 BuildRequires:  cmake
+BuildRequires:  gcc
+BuildRequires:  gcc-gfortran
 BuildRequires:  python3-devel
 BuildRequires:  python3-numpy
 BuildRequires:  python3-setuptools
