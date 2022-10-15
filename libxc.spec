@@ -102,7 +102,7 @@ rm -f %{buildroot}%{_includedir}/libxc.bib
 
 # Run tests, don't parallellize them
 %check
-%ctest -j1
+%ctest --parallel 1
 
 %files
 %doc README NEWS AUTHORS ChangeLog.md libxc.bib
