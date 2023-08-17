@@ -16,7 +16,7 @@
 Name:           libxc
 Summary:        Library of exchange and correlation functionals for density-functional theory
 Version:        6.2.2
-Release:        1%{?dist}
+Release:        1.rv64%{?dist}
 License:        MPLv2.0
 Source0:        https://gitlab.com/libxc/libxc/-/archive/%{version}/%{name}-%{version}.tar.gz
 # Don't rebuild libxc for pylibxc
@@ -82,7 +82,11 @@ sed -i "s|@SOVERSION@|%{soversion}|g;s|@LIBDIR@|%{_libdir}|g" pylibxc/core.py
 
 %build
 # Disable var tracking assignments for C sources, since it fails anyhow due to the size of the sources
+%ifnarch riscv64
 export CFLAGS="%{optflags} -fno-var-tracking-assignments"
+%else
+export CFLAGS="%{optflags} -fno-var-tracking-assignments -mcmodel=medany_pic"
+%endif
 %cmake -DDISABLE_VXC=OFF -DDISABLE_FXC=OFF -DDISABLE_KXC=OFF %{lxcflag} -DENABLE_FORTRAN=ON -DENABLE_PYTHON=ON -DENABLE_XHOST=OFF
 %cmake_build
 
@@ -128,6 +132,9 @@ rm -f %{buildroot}%{_includedir}/libxc.bib
 %{python3_sitearch}/pylibxc/
 
 %changelog
+* Thu Aug 17 2023 Liu Yang <Yang.Liu.sn@gmail.com> - 6.2.2-1.rv64
+- Fix build on riscv64.
+
 * Wed Jun 14 2023 Susi Lehtola <jussilehtola@fedoraproject.org> - 6.2.2-1
 - Update to 6.2.2.
 
