@@ -31,7 +31,7 @@
 Name:           libxc
 Summary:        Library of exchange and correlation functionals for density-functional theory
 Version:        5.1.7
-Release:        2%{?dist}
+Release:        2.rv64%{?dist}
 License:        MPLv2.0
 Source0:        http://www.tddft.org/programs/libxc/down.php?file=%{version}/libxc-%{version}.tar.gz
 # Don't rebuild libxc for pylibxc
@@ -130,7 +130,7 @@ sed -i "s|@SOVERSION@|%{soversion}|g" pylibxc/core.py
 # Don't insert C code during preprocessing
 export FCCPP="cpp -ffreestanding"
 # Disable var tracking assignments for C sources, since it fails anyhow due to the size of the sources
-export CFLAGS="%{optflags} -fno-var-tracking-assignments"
+export CFLAGS="%{optflags} -fno-var-tracking-assignments -mcmodel=medany"
 %configure --enable-shared --disable-static --enable-vxc --enable-fxc --enable-kxc %{lxcflag}
 # Remove rpath
 sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
@@ -216,6 +216,9 @@ make check
 %endif
 
 %changelog
+* Sat Aug 19 2023 Liu Yang <Yang.Liu.sn@gmail.com> - 5.1.7-2.rv64
+- Using a compat version for riscv64.
+
 * Thu Jan 20 2022 Fedora Release Engineering <releng@fedoraproject.org> - 5.1.7-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_36_Mass_Rebuild
 
